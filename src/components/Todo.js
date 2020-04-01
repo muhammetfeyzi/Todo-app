@@ -1,66 +1,80 @@
 import React,{useState} from 'react'
 import Item from './Item';
-import TodoForm from './TodoForm';
-
+import TodoForm from "./TodoForm";
+import Nav from "./Nav";
 export default function Todo() {
 
     const initialState = [
-        {
-            text : 'Learn Hooks ',
-            isComplated : false
-        },
-        {
-            text : 'Learn JavaScript',
-            isComplated : false
-        },
-        {
-            text : 'Learn Htmml & CSSS',
-            isComplated : false
-        },
-    ]
+		{
+			text: 'Learn Hooks',
+			isCompleted: false
+		},
 
-   // const resultArray = useState(initialState);
-   // const todos = resultArray[0];   --- bu todos current state
-   // const setTodos = resultArray[1]; -- todos updated state
+		{
+			text: 'Get the JS Book',
+			isCompleted: false
+		},
 
-    const [todos,setTodo] = useState(initialState);  // -- this is  same code blog above 
+		{
+			text: 'Learn JavaScript',
+			isCompleted: false
+		},
+	];
 
-    const addTodo = (text) =>{
-        const newTodo = [...todos,{text,isComplated:false}];
-        setTodo(newTodo);
-    }
+	/**
+	 * todos: is initial State, whose value will be equal to initialState that we pass in useState() as a parameter
+	 * setTodos is like setState
+	 */
+	const [ todos, setTodos ] = useState( initialState );
 
-    const handleRemoveClick = (index) =>{
-        // get all todos array . . . 
+	const addToDo = ( text ) => {
+		const newToDos = [ ...todos, { text } ];
+		setTodos( newToDos );
+	};
 
-        const allTodos = [...todos];
+	const handleItemClick = ( index ) => {
+		// Get all todos array from state.
+		const newTodos = [ ...todos ];
 
-        // remove the click item on array . . .
-        allTodos.splice(index,1);
+		// Set isCompleted property to reverse of what its current value is ( boolean )
+		newTodos[ index ].isCompleted = ! newTodos[ index ].isCompleted;
 
-        // set todos with removed index
-        setTodo(allTodos)
+		// Set State with the new array of todos with the updated value
+		setTodos( newTodos );
+	};
 
-    }
+	const handleRemoveClick = ( index ) => {
+		// Get all todos array from state.
+		const newTodos = [ ...todos ];
 
-    return (
-        <div className="todo-container">
-            <h2 className='main-heading'> To-do Application</h2>
-            <TodoForm addTodo= {addTodo}/>
-            <div>
-                {
-                    todos.length ? (
-                        todos.map((item,index)=>(
-                         <Item
-                         key = {index} // must be use on loop
-                         todo = {item}
-                         index = {index}
-                         handleRemoveClick = {handleRemoveClick}
-                         />
-                    ))
-                    ) : ""
-                }
-            </div>
-        </div>
-    )
+		// Remove the clicked item from the todos array
+		newTodos.splice( index, 1 );
+
+		// Set State with the new array of todos with the updated value
+		setTodos( newTodos );
+	};
+
+
+	return (
+		<React.Fragment>
+			<Nav/>
+			<div className="todo-container">
+				<h2 className="main-heading">Todo App</h2>
+				<TodoForm addToDo={addToDo}/>
+				<div className="todo-list">
+					{ todos.length ? (
+						todos.map( ( item, index ) => (
+							<Item
+								key={`${ item.text }-${ index }`}
+								todo={ item }
+								index={ index }
+								handleItemClick={ handleItemClick }
+								handleRemoveClick={handleRemoveClick}
+							/>
+						) )
+					) : '' }
+				</div>
+			</div>
+		</React.Fragment>
+	);
 }

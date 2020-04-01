@@ -9,7 +9,7 @@ export default function TodoForm({addTodo}) {
         setValue(event.target.value);
     }
  
-    const onFormSubmit = (event) =>{
+    const onFormSubmit = (event) =>{ 
 
        event.preventDefault(); // this is necessary when use form application
         
