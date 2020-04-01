@@ -26,8 +26,21 @@ export default function Todo() {
     const [todos,setTodo] = useState(initialState);  // -- this is  same code blog above 
 
     const addTodo = (text) =>{
-        const newTodo = [...todos,{text}];
+        const newTodo = [...todos,{text,isComplated:false}];
         setTodo(newTodo);
+    }
+
+    const handleRemoveClick = (index) =>{
+        // get all todos array . . . 
+
+        const allTodos = [...todos];
+
+        // remove the click item on array . . .
+        allTodos.splice(index,1);
+
+        // set todos with removed index
+        setTodo(allTodos)
+
     }
 
     return (
@@ -42,6 +55,7 @@ export default function Todo() {
                          key = {index} // must be use on loop
                          todo = {item}
                          index = {index}
+                         handleRemoveClick = {handleRemoveClick}
                          />
                     ))
                     ) : ""
